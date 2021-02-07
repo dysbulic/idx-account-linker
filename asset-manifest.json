@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/idx-account-linker/static/css/main.8c8b27cf.chunk.css",
+    "main.js": "/idx-account-linker/static/js/main.d8478ffd.chunk.js",
+    "main.js.map": "/idx-account-linker/static/js/main.d8478ffd.chunk.js.map",
+    "runtime-main.js": "/idx-account-linker/static/js/runtime-main.2a614e96.js",
+    "runtime-main.js.map": "/idx-account-linker/static/js/runtime-main.2a614e96.js.map",
+    "static/js/2.1a04aca8.chunk.js": "/idx-account-linker/static/js/2.1a04aca8.chunk.js",
+    "static/js/2.1a04aca8.chunk.js.map": "/idx-account-linker/static/js/2.1a04aca8.chunk.js.map",
+    "static/js/3.89ada1f1.chunk.js": "/idx-account-linker/static/js/3.89ada1f1.chunk.js",
+    "static/js/3.89ada1f1.chunk.js.map": "/idx-account-linker/static/js/3.89ada1f1.chunk.js.map",
+    "index.html": "/idx-account-linker/index.html",
+    "static/css/main.8c8b27cf.chunk.css.map": "/idx-account-linker/static/css/main.8c8b27cf.chunk.css.map",
+    "static/js/2.1a04aca8.chunk.js.LICENSE.txt": "/idx-account-linker/static/js/2.1a04aca8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2a614e96.js",
+    "static/js/2.1a04aca8.chunk.js",
+    "static/css/main.8c8b27cf.chunk.css",
+    "static/js/main.d8478ffd.chunk.js"
+  ]
+}
