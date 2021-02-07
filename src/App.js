@@ -41,7 +41,7 @@ export default () => {
     console.info(idx)
   }
 
-  useEffect((() => connect()), [])
+  useEffect(() => connect(), [])
 
   return (
     <></>
