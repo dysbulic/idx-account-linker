@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Web3 from 'web3'
+import Web3Modal from 'web3modal'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider, // required
+    options: {
+      // Δυς's dev key; not to be relied upon
+      infuraId: '24eb2385c3514f3d98191ad5e4c903e7' // required
+    }
+  }
 }
 
-export default App;
+export default async () => {
+  const web3Modal = new Web3Modal({
+    network: 'xdai', // optional
+    cacheProvider: true, // optional
+    providerOptions // required
+  })
+  
+  const provider = await web3Modal.connect()
+  const web3 = new Web3(provider)
+  
+  return (
+    null
+  );
+}
