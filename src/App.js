@@ -20,7 +20,7 @@ export default () => {
       }
     }
     const web3Modal = new Web3Modal({
-      cacheProvider: false, // optional
+      cacheProvider: true, // optional
       network: 'xdai', // optional
       providerOptions, // required
       disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
@@ -36,9 +36,57 @@ export default () => {
 
     const ceramic = new Ceramic('https://ceramic-clay.3boxlabs.com')
     await ceramic.setDIDProvider(threeID.getDidProvider())
-    const idx = new IDX({ ceramic })
 
-    console.info(idx)
+    console.info({ did: ceramic.did.id })
+
+    //const host = 'oiekhuylog.execute-api.us-west-2.amazonaws.com'
+    const host = 'localhost:3000'
+    const reqURL = `http://${host}/api/v0/request-github`
+    const reqRes = await fetch(reqURL, {
+      method: 'post',
+      body: JSON.stringify(
+        { did: ceramic.did.id, username: 'dysbulic' }
+      ),
+    })
+
+    const challengeCode = (await reqRes.json())?.data?.challengeCode
+
+    console.info({ challengeCode })
+
+    const obj = await ceramic.did.createJWS({ challengeCode })
+    const jws = (
+      [
+        obj.signatures[0].protected,
+        obj.payload,
+        obj.signatures[0].signature,
+      ]
+      .join('.')
+    )
+
+    console.info('Valid:', await ceramic.did.verifyJWS(jws))
+
+    const deB64 = (str) => {
+      const de = Buffer.from(str, 'base64').toString()
+      try {
+        return JSON.parse(de)
+      } catch(err) {
+        return de
+      } 
+    }
+
+    console.info({
+      pro: deB64(obj.signatures[0].protected),
+      pay: deB64(obj.payload),
+      sig: deB64(obj.signatures[0].signature),
+    })
+
+    const verURL = `http://${host}/api/v0/confirm-github`
+    const verRes = await fetch(verURL, {
+      method: 'post',
+      body: JSON.stringify({ jws }),
+    })
+
+    console.info(await verRes.json())
   }
 
   useEffect(() => connect(), [])
