@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import Ceramic from '@ceramicnetwork/http-client'
 import { IDX } from '@ceramicstudio/idx'
 import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
+import schema from './accountSchema.json'
 
 import './App.css'
 
@@ -21,9 +22,8 @@ export default () => {
     }
     const web3Modal = new Web3Modal({
       cacheProvider: true, // optional
-      network: 'xdai', // optional
+      // network: 'xdai', // optional
       providerOptions, // required
-      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     })
     const provider = await web3Modal.connect()
     const web3 = new Web3(provider)
@@ -39,13 +39,14 @@ export default () => {
 
     console.info({ did: ceramic.did.id })
 
+    const username = 'dysbulic'
     //const host = 'oiekhuylog.execute-api.us-west-2.amazonaws.com'
     const host = 'localhost:3000'
     const reqURL = `http://${host}/api/v0/request-github`
     const reqRes = await fetch(reqURL, {
       method: 'post',
       body: JSON.stringify(
-        { did: ceramic.did.id, username: 'dysbulic' }
+        { did: ceramic.did.id, username }
       ),
     })
 
