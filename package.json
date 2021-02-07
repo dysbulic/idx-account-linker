@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "3id-connect": "^0.1.0",
+    "3id-connect": "^1.0.0-alpha.15",
     "@ceramicnetwork/http-client": "^0.9.6",
     "@ceramicstudio/idx": "^0.7.0",
     "@testing-library/jest-dom": "^5.11.4",

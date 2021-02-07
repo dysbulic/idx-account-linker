@@ -25,13 +25,13 @@ export default () => {
       providerOptions, // required
       disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     })
-    const ethProvider = await web3Modal.connect()
-    //const web3 = new Web3(provider)
+    const provider = await web3Modal.connect()
+    const web3 = new Web3(provider)
 
-    const addresses = await ethProvider.getAddresses()
+    const addresses = await web3.eth.getAccounts()
     const threeID = new ThreeIdConnect()
     await threeID.connect(
-      new EthereumAuthProvider(ethProvider, addresses[0])
+      new EthereumAuthProvider(provider, addresses[0])
     )
 
     const ceramic = new Ceramic('https://ceramic-clay.3boxlabs.com')
