@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "3id-connect": "^1.0.0-alpha.15",
-    "@ceramicnetwork/http-client": "^0.9.6",
-    "@ceramicstudio/idx": "^0.7.0",
+    "@ceramicnetwork/http-client": "^0.9.6-rc.0",
+    "@ceramicstudio/idx": "^0.5.2-beta.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
