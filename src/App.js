@@ -117,11 +117,14 @@ export default () => {
     console.info(doc)
     const instance = await ceramic.createDocument('tile', {
       metadata: {
-        schema: schemaID,
+        schema: schemaID.commitId,
       },
       content: doc,
     })
-    console.info(instance)
+
+    const rec = await ceramic.loadDocument(instance.id)
+
+    console.info({ ins: instance.id.toString(), r: rec?.content })
   }
 
   useEffect(() => connect(), [])
