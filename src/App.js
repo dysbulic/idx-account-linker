@@ -6,10 +6,12 @@ import Ceramic from '@ceramicnetwork/http-client'
 import { IDX } from '@ceramicstudio/idx'
 import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
 import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
+import { Provider } from 'react-redux'
 import collectionSchema from './akaSchema.json'
 import recordSchema from './verificationSchema.json'
-
-import './App.css'
+import Home from './Home'
+import Increment from './Increment'
+import { store } from './Reducer'
 
 const username = 'dysbulic'
 //const host = 'oiekhuylog.execute-api.us-west-2.amazonaws.com'
@@ -144,14 +146,16 @@ export default () => {
     const auths = (await idx.get(idxKey)) || []
     console.info(auths)
     auths.push(account)
-    await idx.merge(idxKey, [auths])
+    await idx.merge(idxKey, auths)
 
     console.info(idx.get(idxKey))
   }
 
-  useEffect(() => connect(), [])
+  //useEffect(() => connect(), [])
 
   return (
-    <></>
+    <Provider store={store}>
+      <Home/>
+    </Provider>
   )
 }

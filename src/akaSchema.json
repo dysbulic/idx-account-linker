@@ -1,9 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "array",
+  "type": "object",
   "title": "AlsoKnownAs",
-  "items": {
-    "$ref": "#/definitions/Account"
+  "properties": {
+    "accounts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Account"
+      }
+    }
   },
   "definitions": {
     "Attestation": {
