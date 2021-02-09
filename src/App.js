@@ -3,9 +3,11 @@ import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { useEffect } from 'react'
 import Ceramic from '@ceramicnetwork/http-client'
-//import { IDX } from '@ceramicstudio/idx'
+import { IDX } from '@ceramicstudio/idx'
 import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
-import schema from './akaSchema.json'
+import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
+import collectionSchema from './akaSchema.json'
+import recordSchema from './verificationSchema.json'
 
 import './App.css'
 
@@ -15,6 +17,8 @@ const host = 'localhost:3000'
 // Δυς's dev key; not to be relied upon
 const infuraId = '24eb2385c3514f3d98191ad5e4c903e7'
 const ceramicSvr = 'https://ceramic-clay.3boxlabs.com'
+//const ceramicSvr = 'http://localhost:7007'
+const idxKey = 'aka'
 
 // Reverse base 64 encoding to an object if possible
 const deB64 = (str) => {
@@ -38,6 +42,8 @@ const jwtStr = (obj) => (
 
 export default () => {
   const connect = async () => {
+    console.info('Starting Connect:', ceramicSvr)
+
     const providerOptions = {
       walletconnect: {
         package: WalletConnectProvider, // required
@@ -96,35 +102,51 @@ export default () => {
     const parts = att?.split('.').map(deB64)
     const acct = parts[1].vc.credentialSubject.account
 
-    console.info(schema)
-    const recordType = await ceramic.createDocument('tile', {
-      deterministic: true,
-      content: schema,
-    })
-    const schemaID = recordType.id.toString()
+    // const recordType = await ceramic.createDocument('tile', {
+    //   deterministic: true,
+    //   content: recordSchema,
+    // })
+    // const schemaID = recordType.id
 
-    const record = await ceramic.loadDocument(schemaID)
+    // const record = await ceramic.loadDocument(schemaID)
 
-    console.info({ schemaID, r: record.content })
+    // console.info({ sch: schemaID.toString(), r: record.content })
 
-    const doc = {
+    const account = {
       protocol: 'https',
       host: 'github.com',
       id: acct.username,
       claim: acct.url,
       attestations: [{ 'did-jwt-vc': att }]
     }
-    console.info(doc)
-    const instance = await ceramic.createDocument('tile', {
-      metadata: {
-        schema: schemaID.commitId,
-      },
-      content: doc,
+
+    const collectionType = await ceramic.createDocument('tile', {
+      deterministic: true,
+      content: collectionSchema,
     })
 
-    const rec = await ceramic.loadDocument(instance.id)
+    console.info({ id: collectionType.id.toUrl(), cid: collectionType.commitId.toUrl() })
 
-    console.info({ ins: instance.id.toString(), r: rec?.content })
+    const akaDef = await createDefinition(ceramic, {
+      name: 'AsKnownAs',
+      description: 'Account links to an IDX DID', // optional
+      schema: collectionType.commitId.toUrl(),
+    })
+
+    console.info({ akaDef })
+
+    const idxDefs = {
+      [idxKey]: [akaDef.commitId.toUrl()],
+    }
+
+    const idx = new IDX({ ceramic, aliases: idxDefs })
+
+    const auths = (await idx.get(idxKey)) || []
+    console.info(auths)
+    auths.push(account)
+    await idx.merge(idxKey, [auths])
+
+    console.info(idx.get(idxKey))
   }
 
   useEffect(() => connect(), [])
