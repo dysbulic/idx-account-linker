@@ -7,7 +7,8 @@ import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
 import akaSchema from './akaSchema.json'
 import { IDX } from '@ceramicstudio/idx'
 
-const verifier = 'http://localhost:3000'
+//const verifier = 'http://localhost:3000'
+const verifier = 'https://oiekhuylog.execute-api.us-west-2.amazonaws.com/develop'
 const idxKey = 'aka'
 
 // Reverse base 64 encoding to an object if possible
