@@ -1,22 +1,27 @@
-import { useState, useEffect } from 'react'
 import { connect } from "react-redux"
-import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
-import Ceramic from '@ceramicnetwork/http-client'
-import { Box } from '@chakra-ui/react'
+import { Box, useClipboard, Text, Stack } from '@chakra-ui/react'
+import { CopyIcon } from '@chakra-ui/icons'
 
 const DIDToGist = ({ did, username }) => {
+  const { onCopy } = useClipboard(did)
   return (
-    <Box>
-      <h1>
+    <Box><Stack>
+      <Text>
         Copy your DID to a
         <span> </span>
         <a
           target='_blank'
           href={`//gist.github.com/${username}`}
         >gist</a>.
-      </h1>
-      <h1>{did}</h1>
-    </Box>
+      </Text>
+      <Text>
+        <span title={did}>
+          {did.slice(0, 10)}…{did.slice(-5)}
+        </span>
+        <span> </span>
+        <CopyIcon title="copy" onClick={onCopy}/>
+      </Text>
+      </Stack></Box>
   )
 }
 

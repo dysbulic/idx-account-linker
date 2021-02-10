@@ -4,6 +4,7 @@ import ConnectWallet from './ConnectWallet'
 import CollectUsername from './CollectUsername'
 import DIDToGist from './DIDToGist'
 import CreateCredential from './CreateCredential'
+import { Center, Stack } from '@chakra-ui/react'
 
 const Home = ({ address, username, did }) => {
   const [ceramic, setCeramic] = useState()
@@ -16,7 +17,7 @@ const Home = ({ address, username, did }) => {
       comps.push(<CreateCredential {...{ ceramic }}/>)
     }
   }
-  return comps
+  return <Center><Stack>{comps}</Stack></Center>
 }
 
 export default connect(state => {

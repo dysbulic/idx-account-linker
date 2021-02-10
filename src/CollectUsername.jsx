@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { connect } from "react-redux"
-import { Box } from "@chakra-ui/react"
+import { Box, Text, Input } from "@chakra-ui/react"
 import { DeleteIcon } from '@chakra-ui/icons'
 import { setUsername } from './Reducer'
 
@@ -10,10 +10,11 @@ const CollectUsername = ({ username }) => {
   if(username) {
     return (
       <Box>
-        <h1>
+        <Text>
           Checking: {username}
+          <span> </span>
           <DeleteIcon onClick={() => setUsername()}/>
-        </h1>
+        </Text>
       </Box>
     )
   }
@@ -26,10 +27,9 @@ const CollectUsername = ({ username }) => {
 
   return (
     <Box>
-      <h1>¿What's your <a href='//github,com'>Github</a> username?</h1>
+      <Text>¿What's your <a href='//github,com'>Github</a> username?</Text>
       <form onSubmit={onSubmit}>
-        <input
-          type='text'
+        <Input
           onChange={evt => setName(evt.target.value)}
         />
       </form>

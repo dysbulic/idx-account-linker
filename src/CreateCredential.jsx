@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { connect } from "react-redux"
-import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
-import Ceramic from '@ceramicnetwork/http-client'
-import { Box } from '@chakra-ui/react'
+import { Box, Spinner, Text } from '@chakra-ui/react'
 import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
 import akaSchema from './akaSchema.json'
 import { IDX } from '@ceramicstudio/idx'
@@ -37,6 +35,9 @@ const CreateCredential = ({ did, username, ceramic }) => {
   const create = async () => {
     try {
       let url = `${verifier}/api/v0/request-github`
+      console.info(JSON.stringify(
+        { did, username }
+      ))
       let res = await fetch(url, {
         method: 'post',
         body: JSON.stringify(
@@ -81,11 +82,15 @@ const CreateCredential = ({ did, username, ceramic }) => {
         content: akaSchema,
       })
 
+      console.info('akaType', { id: akaType.id.toUrl(), commit: akaType.commitId.toUrl() })
+
       const akaDef = await createDefinition(ceramic, {
         name: 'AsKnownAs',
         description: 'Account links to an IDX DID', // optional
         schema: akaType.commitId.toUrl(),
       })
+
+      console.info('akaDef', { id: akaDef.id.toUrl(), commit: akaDef.commitId.toUrl() })
 
       const idxDefs = {
         [idxKey]: [akaDef.commitId.toUrl()],
@@ -94,9 +99,15 @@ const CreateCredential = ({ did, username, ceramic }) => {
       const idx = new IDX({ ceramic, aliases: idxDefs })
 
       const aka = (await idx.get(idxKey)) || { accounts: [] }
+
+      console.info('existing', { ...aka })
+
       if(!aka.accounts) throw new Error(`malformed ${idxKey} entry`)
       aka.accounts.push(account)
-      console.info((await idx.merge(idxKey, aka)).toString())
+
+      console.info('new', { ...aka })
+
+      console.info('repo', (await idx.merge(idxKey, aka)).toUrl())
       setDone(true)
     } catch(err) {
       console.error(err)
@@ -109,7 +120,7 @@ const CreateCredential = ({ did, username, ceramic }) => {
   if(error) {
     return (
       <Box>
-        <h1>Error: {error}</h1>
+        <Text>Error: {error}</Text>
       </Box>
     )
   }
@@ -117,13 +128,13 @@ const CreateCredential = ({ did, username, ceramic }) => {
   if(!done) {
     return (
       <Box>
-        <h1>Verifying gist for {username}.</h1>
+        <Text>Verifying gist for {username}. <Spinner/></Text>
       </Box>
     )
   }
 
   return (
-    <Box><h1>Verified</h1></Box>
+    <Box><Text>Verified</Text></Box>
   )
 }
 
