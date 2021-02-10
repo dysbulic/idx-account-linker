@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { connect } from "react-redux"
-import { Box, Spinner, Text } from '@chakra-ui/react'
+import {
+  Box, Spinner, Text, Center, Alert, AlertDescription, AlertIcon
+} from '@chakra-ui/react'
 import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
 import akaSchema from './akaSchema.json'
 import { IDX } from '@ceramicstudio/idx'
@@ -93,7 +95,8 @@ const CreateCredential = ({ did, username, ceramic }) => {
       console.info('akaDef', { id: akaDef.id.toUrl(), commit: akaDef.commitId.toUrl() })
 
       const idxDefs = {
-        [idxKey]: [akaDef.commitId.toUrl()],
+        // [idxKey]: [akaDef.commitId.toUrl()],
+        [idxKey]: [akaDef.id.toUrl()],
       }
 
       const idx = new IDX({ ceramic, aliases: idxDefs })
@@ -119,22 +122,23 @@ const CreateCredential = ({ did, username, ceramic }) => {
 
   if(error) {
     return (
-      <Box>
-        <Text>Error: {error}</Text>
-      </Box>
+      <Box><Alert status="error">
+        <AlertIcon />
+        <AlertDescription>{error}</AlertDescription>
+      </Alert></Box>
     )
   }
 
   if(!done) {
     return (
-      <Box>
+      <Box align='center'>
         <Text>Verifying gist for {username}. <Spinner/></Text>
       </Box>
     )
   }
 
   return (
-    <Box><Text>Verified</Text></Box>
+    <Box><Center><Text>Verified</Text></Center></Box>
   )
 }
 

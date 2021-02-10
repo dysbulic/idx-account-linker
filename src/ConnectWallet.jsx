@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import Web3 from 'web3'
-import Web3Modal, { connectors } from 'web3modal'
+import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
-import { setAddress, setDID } from './Reducer'
 import { connect } from 'react-redux'
-import { Box, Button, Spinner, Stack, Text } from '@chakra-ui/react'
+import {
+  Box, Button, Spinner, Stack, Text
+} from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import Ceramic from '@ceramicnetwork/http-client'
 import { getInjectedProvider } from 'web3modal'
 import { useEffect } from 'react'
+import { setAddress, setDID } from './Reducer'
 
 // Δυς's dev key; not to be relied upon
 const infuraId = '24eb2385c3514f3d98191ad5e4c903e7'
@@ -34,25 +36,39 @@ const ConnectWallet = ({ address, setCeramic, did }) => {
 
   //console.info(getInjectedProvider())
 
+  const disconnect = async () => {
+    setDID()
+    setAddress()
+    web3Modal.clearCachedProvider()
+    if(web3?.currentProvider?.disconnect) {
+      await web3.currentProvider.disconnect()
+    }
+  }
+
   const connect = async () => {
-    const provider = await web3Modal.connect()
-    const web3 = new Web3(provider)
-    setWeb3(web3)
+    try {
+      const provider = await web3Modal.connect()
+      const web3 = new Web3(provider)
+      setWeb3(web3)
 
-    const addresses = await web3.eth.getAccounts()
-    const address = addresses[0]
-    setAddress(address)
+      const addresses = await web3.eth.getAccounts()
+      const address = addresses[0]
+      setAddress(address)
 
-    const threeID = new ThreeIdConnect()
-    await threeID.connect(
-      new EthereumAuthProvider(provider, address)
-    )
+      const threeID = new ThreeIdConnect()
+      await threeID.connect(
+        new EthereumAuthProvider(provider, address)
+      )
 
-    const ceramic = new Ceramic(ceramicSvr)
-    await ceramic.setDIDProvider(threeID.getDidProvider())
-    setCeramic(ceramic)
+      const ceramic = new Ceramic(ceramicSvr)
+      await ceramic.setDIDProvider(threeID.getDidProvider())
+      setCeramic(ceramic)
 
-    setDID(ceramic.did.id)
+      setDID(ceramic.did.id)
+      } catch(err) {
+        console.error(err)
+        disconnect()
+      }
   }
 
   const enableIfInjected = async () => {
@@ -65,7 +81,7 @@ const ConnectWallet = ({ address, setCeramic, did }) => {
 
   if(address) {
     return (
-      <Stack>
+      <Stack align='center'>
         <Text>
           Using:
           <span> </span>
@@ -73,18 +89,15 @@ const ConnectWallet = ({ address, setCeramic, did }) => {
             {address.slice(0, 10)}…{address.slice(-5)}
           </span>
           <span> </span>
-          <DeleteIcon onClick={async () => {
-            setAddress()
-            web3?.currentProvider?.disconnect && await web3.currentProvider.disconnect()
-          }}/>
+          <DeleteIcon onClick={disconnect}/>
         </Text>
-        {!did && <Box><Spinner/></Box>}
+        {!did && <Spinner/>}
       </Stack>
     )
   }
 
   return (
-    <Box>
+    <Box align='center'>
       <Button onClick={connect}>Connect Your Wallet</Button>
     </Box>
   )

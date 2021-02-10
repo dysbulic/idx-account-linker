@@ -4,9 +4,10 @@ import ConnectWallet from './ConnectWallet'
 import CollectUsername from './CollectUsername'
 import DIDToGist from './DIDToGist'
 import CreateCredential from './CreateCredential'
-import { Center, Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
+import { theme, ThemeProvider, CSSReset } from "@chakra-ui/react";
 
-const Home = ({ address, username, did }) => {
+const Home = ({ address, username, did, pasted }) => {
   const [ceramic, setCeramic] = useState()
   const comps = []
   comps.push(<ConnectWallet {...{ setCeramic }}/>)
@@ -14,13 +15,20 @@ const Home = ({ address, username, did }) => {
     comps.push(<CollectUsername/>)
     if(username) {
       comps.push(<DIDToGist/>)
-      comps.push(<CreateCredential {...{ ceramic }}/>)
+      if(pasted) {
+        comps.push(<CreateCredential {...{ ceramic }}/>)
+      }
     }
   }
-  return <Center><Stack>{comps}</Stack></Center>
+  return (
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <Stack align='center' spacing={5}>{comps}</Stack>
+    </ThemeProvider>
+  )
 }
 
 export default connect(state => {
-  const { address, username, did } = state
-  return { address, username, did }
+  const { address, username, did, pasted } = state
+  return { address, username, did, pasted }
 })(Home)

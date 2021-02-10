@@ -1,9 +1,7 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
 
 const initial = {
-  step: 1,
-  address: null,
-  username: null,
+  pasted: false,
 }
 
 const pageSlice = createSlice({
@@ -20,6 +18,9 @@ const pageSlice = createSlice({
     ),
     setDID: (state, action) => (
       { ...state, did: action.payload }
+    ),
+    setPasted: (state, action) => (
+      { ...state, pasted: action.payload }
     ),
   },
 })
@@ -42,4 +43,7 @@ export const setUsername = (user) => (
 )
 export const setDID = (did) => (
   store.dispatch(pageSlice.actions.setDID(did))
+)
+export const setPasted = (pasted) => (
+  store.dispatch(pageSlice.actions.setPasted(pasted))
 )
