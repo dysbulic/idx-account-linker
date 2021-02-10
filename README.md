@@ -1,6 +1,13 @@
-# Getting Started with Create React App
+# IDX Account Linker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Create verifiable credentials representing control of social media accounts (currently Github).
+
+## Setup
+
+A copy of the document definition IDs is checked into the repo, but should you need to generate a new set, the method is:
+
+* `RANDBYTES=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")`
+* `SEED=$RANDBYTES yarn bootstrap`
 
 ## Available Scripts
 

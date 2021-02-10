@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 import {
   Box, Text, Input, Center, Stack, Link
-} from "@chakra-ui/react"
+} from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { setUsername } from './Reducer'
 
@@ -22,7 +22,6 @@ const CollectUsername = ({ username }) => {
   }
 
   const onSubmit = (evt) => {
-    console.info('SUB', name)
     evt.preventDefault()
     setUsername(name)
   }

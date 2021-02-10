@@ -3,9 +3,8 @@ import { connect } from "react-redux"
 import {
   Box, Spinner, Text, Alert, AlertDescription, AlertIcon
 } from '@chakra-ui/react'
-import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
 import { IDX } from '@ceramicstudio/idx'
-import akaSchema from './akaSchema.json'
+import { definitions } from './docIDs.json'
 import { setFailed } from './Reducer'
 
 //const verifier = 'http://localhost:3000'
@@ -80,30 +79,7 @@ const CreateCredential = ({ did, username, failed, ceramic }) => {
         attestations: [{ 'did-jwt-vc': att }]
       }
 
-      const akaType = await ceramic.createDocument('tile', {
-        deterministic: true,
-        content: akaSchema,
-      })
-
-      console.info('akaType', { id: akaType.id.toUrl(), commit: akaType.commitId.toUrl() })
-
-      // const typeId = akaType.commitId.toUrl()
-      const typeId = "ceramic://k6zn3rc3v8qin13uvxmmnn34rp2hiccdt9u2rgqqbg3prksqybhktcs76pzprnd9okf7wf1ijl1cj4rr934ys896vmb11h4uzl0e3zicvc312jfklwd1bam"
-
-      const akaDef = await createDefinition(ceramic, {
-        name: 'AsKnownAs',
-        description: 'Account links to an IDX DID', // optional
-        schema: typeId,
-      })
-
-      console.info('akaDef', { id: akaDef.id.toUrl(), commit: akaDef.commitId.toUrl() })
-
-      const idxDefs = {
-        // [idxKey]: [akaDef.commitId.toUrl()],
-        [idxKey]: [akaDef.id.toUrl()],
-      }
-
-      const idx = new IDX({ ceramic, aliases: idxDefs })
+      const idx = new IDX({ ceramic, aliases: definitions })
 
       const aka = (await idx.get(idxKey)) || { accounts: [] }
 
@@ -142,7 +118,9 @@ const CreateCredential = ({ did, username, failed, ceramic }) => {
   if(!done) {
     return (
       <Box align='center'>
-        <Text>Verifying gist for {username}. <Spinner/></Text>
+        <Text>Verifying gist for {username}.</Text>
+        <span> </span>
+        <Spinner/>
       </Box>
     )
   }
