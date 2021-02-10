@@ -34,7 +34,7 @@ const ConnectWallet = ({ address, setCeramic, did }) => {
     providerOptions, // required
   })
 
-  //console.info(getInjectedProvider())
+  console.info(getInjectedProvider())
 
   const disconnect = async () => {
     setDID()

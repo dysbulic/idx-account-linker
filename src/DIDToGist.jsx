@@ -3,9 +3,9 @@ import {
   Box, useClipboard, Text, Stack, Button, useToast, Link
 } from '@chakra-ui/react'
 import { CopyIcon } from '@chakra-ui/icons'
-import { setPasted } from './Reducer'
+import { setFailed, setPasted } from './Reducer'
 
-const DIDToGist = ({ did, username }) => {
+const DIDToGist = ({ did, username, pasted, failed }) => {
   const { onCopy } = useClipboard(did)
   const toast = useToast()
   return (
@@ -35,14 +35,24 @@ const DIDToGist = ({ did, username }) => {
           })
         }}/>
       </Text>
-      <Button onClick={() => setPasted(true)} background='green.100'>✔ Gist Created</Button>
+      {(!pasted || failed) &&
+        <Button onClick={() => {
+          setPasted(true)
+          setFailed(false)
+        }}
+        background='green.100'
+        >
+          ✔ Gist Created
+        </Button>}
     </Stack></Box>
   )
 }
 
 export default connect(
-  (state) => ({
-    did: state.did,
-    username: state.username,
-  })
+  (state) => {
+    const { did, username, pasted, failed } = state
+    return {
+      did, username, pasted, failed,
+    }
+  }
 )(DIDToGist)

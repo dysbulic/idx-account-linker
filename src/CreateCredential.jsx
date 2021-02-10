@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { connect } from "react-redux"
 import {
-  Box, Spinner, Text, Center, Alert, AlertDescription, AlertIcon
+  Box, Spinner, Text, Alert, AlertDescription, AlertIcon
 } from '@chakra-ui/react'
 import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
-import akaSchema from './akaSchema.json'
 import { IDX } from '@ceramicstudio/idx'
+import akaSchema from './akaSchema.json'
+import { setFailed } from './Reducer'
 
 //const verifier = 'http://localhost:3000'
 const verifier = 'https://oiekhuylog.execute-api.us-west-2.amazonaws.com/develop'
@@ -31,7 +32,7 @@ const jwtStr = (obj) => (
   .join('.')
 )
 
-const CreateCredential = ({ did, username, ceramic }) => {
+const CreateCredential = ({ did, username, failed, ceramic }) => {
   const [done, setDone] = useState(false)
   const [error, setError] = useState()
   const create = async () => {
@@ -86,10 +87,13 @@ const CreateCredential = ({ did, username, ceramic }) => {
 
       console.info('akaType', { id: akaType.id.toUrl(), commit: akaType.commitId.toUrl() })
 
+      // const typeId = akaType.commitId.toUrl()
+      const typeId = "ceramic://k6zn3rc3v8qin13uvxmmnn34rp2hiccdt9u2rgqqbg3prksqybhktcs76pzprnd9okf7wf1ijl1cj4rr934ys896vmb11h4uzl0e3zicvc312jfklwd1bam"
+
       const akaDef = await createDefinition(ceramic, {
         name: 'AsKnownAs',
         description: 'Account links to an IDX DID', // optional
-        schema: akaType.commitId.toUrl(),
+        schema: typeId,
       })
 
       console.info('akaDef', { id: akaDef.id.toUrl(), commit: akaDef.commitId.toUrl() })
@@ -115,10 +119,16 @@ const CreateCredential = ({ did, username, ceramic }) => {
     } catch(err) {
       console.error(err)
       setError(err.message)
+      setFailed(true)
     }
   }
 
-  useEffect(() => create(), [])
+  useEffect(() => {
+    if(!failed) {
+      setError()
+      create()
+    }
+  }, [failed])
 
   if(error) {
     return (
@@ -138,13 +148,15 @@ const CreateCredential = ({ did, username, ceramic }) => {
   }
 
   return (
-    <Box><Center><Text>Verified</Text></Center></Box>
+    <Box align='center'><Text>Verified</Text></Box>
   )
 }
 
 export default connect(
-  (state) => ({
-    did: state.did,
-    username: state.username,
-  })
+  (state) => {
+    const { did, username, failed } = state
+    return {
+      did, username, failed,
+    }
+  }
 )(CreateCredential)

@@ -10,13 +10,13 @@ import { theme, ThemeProvider, CSSReset } from "@chakra-ui/react";
 const Home = ({ address, username, did, pasted }) => {
   const [ceramic, setCeramic] = useState()
   const comps = []
-  comps.push(<ConnectWallet {...{ setCeramic }}/>)
+  comps.push(<ConnectWallet {...{ setCeramic }} key={1}/>)
   if(did) {
-    comps.push(<CollectUsername/>)
+    comps.push(<CollectUsername key={2}/>)
     if(username) {
-      comps.push(<DIDToGist/>)
+      comps.push(<DIDToGist key={3}/>)
       if(pasted) {
-        comps.push(<CreateCredential {...{ ceramic }}/>)
+        comps.push(<CreateCredential {...{ ceramic }} key={4}/>)
       }
     }
   }

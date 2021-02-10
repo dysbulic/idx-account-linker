@@ -2,6 +2,7 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 
 const initial = {
   pasted: false,
+  failed: false,
 }
 
 const pageSlice = createSlice({
@@ -21,6 +22,9 @@ const pageSlice = createSlice({
     ),
     setPasted: (state, action) => (
       { ...state, pasted: action.payload }
+    ),
+    setFailed: (state, action) => (
+      { ...state, failed: action.payload }
     ),
   },
 })
@@ -46,4 +50,7 @@ export const setDID = (did) => (
 )
 export const setPasted = (pasted) => (
   store.dispatch(pageSlice.actions.setPasted(pasted))
+)
+export const setFailed = (failed) => (
+  store.dispatch(pageSlice.actions.setFailed(failed))
 )
