@@ -69,6 +69,7 @@ const CreateCredential = ({ did, username, failed, ceramic }) => {
       const att = datum?.data?.attestation
       if(!att) throw new Error('missing attestation')
       const parts = att?.split('.').map(deB64)
+      console.info(parts)
       const acct = parts[1].vc.credentialSubject.account
 
       const account = {
@@ -81,7 +82,7 @@ const CreateCredential = ({ did, username, failed, ceramic }) => {
 
       const idx = new IDX({ ceramic, aliases: definitions })
 
-      const aka = (await idx.get(idxKey)) || { accounts: [] }
+      const aka = (await idx.get(idxKey)) ?? { accounts: [] }
 
       console.info('existing', { ...aka })
 

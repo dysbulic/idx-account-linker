@@ -7,7 +7,7 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import { setUsername } from './Reducer'
 
 const CollectUsername = ({ username }) => {
-  const [name, setName] = useState(username)
+  const [name, setName] = useState(username || '')
 
   if(username) {
     return (
