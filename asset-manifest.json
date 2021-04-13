@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/idx-account-linker/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/idx-account-linker/static/js/main.cbf0acf2.chunk.js",
-    "main.js.map": "/idx-account-linker/static/js/main.cbf0acf2.chunk.js.map",
+    "main.js": "/idx-account-linker/static/js/main.0c728914.chunk.js",
+    "main.js.map": "/idx-account-linker/static/js/main.0c728914.chunk.js.map",
     "runtime-main.js": "/idx-account-linker/static/js/runtime-main.ae31e1c5.js",
     "runtime-main.js.map": "/idx-account-linker/static/js/runtime-main.ae31e1c5.js.map",
-    "static/js/2.51fa2149.chunk.js": "/idx-account-linker/static/js/2.51fa2149.chunk.js",
-    "static/js/2.51fa2149.chunk.js.map": "/idx-account-linker/static/js/2.51fa2149.chunk.js.map",
+    "static/js/2.c7f59cfe.chunk.js": "/idx-account-linker/static/js/2.c7f59cfe.chunk.js",
+    "static/js/2.c7f59cfe.chunk.js.map": "/idx-account-linker/static/js/2.c7f59cfe.chunk.js.map",
     "static/js/3.cc0eed52.chunk.js": "/idx-account-linker/static/js/3.cc0eed52.chunk.js",
     "static/js/3.cc0eed52.chunk.js.map": "/idx-account-linker/static/js/3.cc0eed52.chunk.js.map",
     "index.html": "/idx-account-linker/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/idx-account-linker/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.51fa2149.chunk.js.LICENSE.txt": "/idx-account-linker/static/js/2.51fa2149.chunk.js.LICENSE.txt"
+    "static/js/2.c7f59cfe.chunk.js.LICENSE.txt": "/idx-account-linker/static/js/2.c7f59cfe.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ae31e1c5.js",
-    "static/js/2.51fa2149.chunk.js",
+    "static/js/2.c7f59cfe.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.cbf0acf2.chunk.js"
+    "static/js/main.0c728914.chunk.js"
   ]
 }
