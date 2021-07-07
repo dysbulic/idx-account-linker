@@ -5,7 +5,7 @@ import CollectUsername from './CollectUsername'
 import DIDToGist from './DIDToGist'
 import CreateCredential from './CreateCredential'
 import { Stack } from '@chakra-ui/react'
-import { theme, ThemeProvider, CSSReset } from "@chakra-ui/react";
+import { theme, ThemeProvider, CSSReset, Box, Text, Link } from "@chakra-ui/react";
 
 const Home = ({ address, username, did, pasted }) => {
   const [ceramic, setCeramic] = useState()
@@ -23,6 +23,17 @@ const Home = ({ address, username, did, pasted }) => {
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
+      <Box
+        bg="#FF000033" style={{
+          border: '2px soild #F00',
+          textIndent: 15,
+        }}
+        padding="1rem"
+        maxW="30rem" margin="2rem auto"
+      >
+        <Text>This site is no longer functional. The serverless functions which checks to see that the Gist has been creared is no longer running.</Text>
+        <Text>The <Link textDecoration="underline" href='https://github.com/ceramicstudio/self.id'>self.id</Link> project is the official Ceramic service to create account links.</Text>
+      </Box>
       <Stack align='center' spacing={5}>{comps}</Stack>
     </ThemeProvider>
   )
