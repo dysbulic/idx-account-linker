@@ -31,8 +31,8 @@ const Home = ({ address, username, did, pasted }) => {
         padding="1rem"
         maxW="30rem" margin="2rem auto"
       >
-        <Text>This site is no longer functional. The serverless functions which checks to see that the Gist has been creared is no longer running.</Text>
-        <Text>The <Link textDecoration="underline" href='https://github.com/ceramicstudio/self.id'>self.id</Link> project is the official Ceramic service to create account links.</Text>
+        <Text>This site is no longer functional. The serverless functions which checks to see that the Gist has been created is no longer running.</Text>
+        <Text>The <Link textDecoration="underline" href='//self.id'>self.id</Link> project is the official Ceramic interface to create account links.</Text>
       </Box>
       <Stack align='center' spacing={5}>{comps}</Stack>
     </ThemeProvider>
